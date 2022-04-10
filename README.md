@@ -1,3 +1,3 @@
 # evans_final_adj
 
-My final project will be scraping K-12 educational data regarding gifted programs and their demographic makeup from the Department of Elementary and Secondary Education's website.
+My final project will be using shiny to create a web application around campaign finances and the Missouri senate race.
