@@ -1,0 +1,72 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is my notebook for my final project. I will be making a web application using shiny to show campaign finance information for the Missouri Senate race.
+
+#Load packages
+```{r}
+library(shiny)
+library(rsconnect)
+library(tidyverse)
+library(janitor)
+```
+
+#Load the data
+```{r}
+contributions <- read_csv("data/campfin/mo_contributions.csv")
+candidates <- read_csv("data/campfin/candidates.csv")
+committees <- read_csv("data/campfin/committees.csv")
+```
+
+#Documentation for these three tables: 
+
+**Individual contributions**:
+https://www.fec.gov/campaign-finance-data/contributions-individuals-file-description/
+**Candidates**: 
+https://www.fec.gov/campaign-finance-data/candidate-master-file-description/
+**Committees**: 
+https://www.fec.gov/campaign-finance-data/committee-master-file-description/
+
+# DEAL WITH REFUNDS
+Use function I found online to turn numeric data negative
+```{r}
+refunds <- contributions %>% filter(transaction_tp=="22Y") %>%
+  mutate_if(is.numeric, funs(. * -1))
+```
+Make table without 22y so it doesn't get zeroed out but actually negated
+```{r}
+no_refunds <- contributions %>% filter(transaction_tp!="22Y")
+```
+Add in negative refunds
+```{r}
+clean_contribs<-no_refunds %>% add_row(refunds)
+```
+
+
+
+#Run the shiny app template
+```{r}
+ui <- fluidPage(
+  
+  titlePanel("Missouri Senate Race")
+  
+)
+
+server <- function(input, output){
+  
+  
+}
+
+shinyApp(ui=ui , server = server)
+
+```
+
+#Run example apps
+```{r}
+runExample("02_text")
+```
+
+
+#Note to Laura, tutorial timestamp 41:59 https://shiny.rstudio.com/tutorial/
