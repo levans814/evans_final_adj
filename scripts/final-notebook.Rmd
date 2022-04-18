@@ -44,19 +44,37 @@ Add in negative refunds
 clean_contribs<-no_refunds %>% add_row(refunds)
 ```
 
+#narrow down to senate race and join candidates to clean_contribs
+```{r}
+party_contribs <- candidates %>% 
+  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
+  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
+  group_by(party) %>%
+  summarise(total = sum(transaction_amt))
+```
 
 
 #Run the shiny app template
 ```{r}
 ui <- fluidPage(
   
-  titlePanel("Missouri Senate Race")
+  titlePanel("Missouri Senate Race"),
   
+  sidebarLayout(
+    sidebarPanel( selectInput("var", 
+                  label = "Choose a variable to display",
+                  choices = c("Republican", "Democrat",
+                              "Unknown"),
+                  selected = "Republican")),
+    mainPanel( tableOutput("TBL"))
+  )
 )
 
 server <- function(input, output){
   
-  
+  output$TBL <- renderTable({
+      party_contribs
+  })
 }
 
 shinyApp(ui=ui , server = server)

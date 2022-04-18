@@ -219,22 +219,89 @@ pre code {
 <p>#Load packages</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzaGlueSlcbmxpYnJhcnkocnNjb25uZWN0KVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGphbml0b3IpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzaGlueSlcbmxpYnJhcnkocnNjb25uZWN0KVxuYGBgIn0= -->
 <pre class="r"><code>library(shiny)
-library(rsconnect)
-library(tidyverse)
-library(janitor)</code></pre>
+library(rsconnect)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYcnNjb25uZWN04oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6c2hpbnnigJk6XG5cbiAgICBzZXJ2ZXJJbmZvXG4ifQ== -->
+<pre><code>
+Attaching package: ‘rsconnect’
+
+The following object is masked from ‘package:shiny’:
+
+    serverInfo</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxu4pSA4pSAIEF0dGFjaGluZyBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDEuMy4xIOKUgOKUgFxu4pyTIGdncGxvdDIgMy4zLjUgICAgIOKckyBwdXJyciAgIDAuMy40XG7inJMgdGliYmxlICAzLjEuNiAgICAg4pyTIGRwbHlyICAgMS4wLjdcbuKckyB0aWR5ciAgIDEuMS40ICAgICDinJMgc3RyaW5nciAxLjQuMFxu4pyTIHJlYWRyICAgMi4xLjEgICAgIOKckyBmb3JjYXRzIDAuNS4xXG7ilIDilIAgQ29uZmxpY3RzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG54IGRwbHlyOjpmaWx0ZXIoKSBtYXNrcyBzdGF0czo6ZmlsdGVyKClcbnggZHBseXI6OmxhZygpICAgIG1hc2tzIHN0YXRzOjpsYWcoKVxuIn0= -->
+<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+── Attaching packages ───────────────── tidyverse 1.3.1 ──
+✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+✓ tibble  3.1.6     ✓ dplyr   1.0.7
+✓ tidyr   1.1.4     ✓ stringr 1.4.0
+✓ readr   2.1.1     ✓ forcats 0.5.1
+── Conflicts ──────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShqYW5pdG9yKVxuYGBgIn0= -->
+<pre class="r"><code>library(janitor)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYamFuaXRvcuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6c3RhdHPigJk6XG5cbiAgICBjaGlzcS50ZXN0LCBmaXNoZXIudGVzdFxuIn0= -->
+<pre><code>
+Attaching package: ‘janitor’
+
+The following objects are masked from ‘package:stats’:
+
+    chisq.test, fisher.test</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>#Load the data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29udHJpYnV0aW9ucyA8LSByZWFkX2NzdihcImRhdGEvY2FtcGZpbi9tb19jb250cmlidXRpb25zLmNzdlwiKVxuY2FuZGlkYXRlcyA8LSByZWFkX2NzdihcImRhdGEvY2FtcGZpbi9jYW5kaWRhdGVzLmNzdlwiKVxuY29tbWl0dGVlcyA8LSByZWFkX2NzdihcImRhdGEvY2FtcGZpbi9jb21taXR0ZWVzLmNzdlwiKVxuYGBgIn0= -->
-<pre class="r"><code>contributions &lt;- read_csv(&quot;data/campfin/mo_contributions.csv&quot;)
-candidates &lt;- read_csv(&quot;data/campfin/candidates.csv&quot;)
-committees &lt;- read_csv(&quot;data/campfin/committees.csv&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29udHJpYnV0aW9ucyA8LSByZWFkX2NzdihcImRhdGEvY2FtcGZpbi9tb19jb250cmlidXRpb25zLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>contributions &lt;- read_csv(&quot;data/campfin/mo_contributions.csv&quot;)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMzI1ODggQ29sdW1uczogMjFcbuKUgOKUgCBDb2x1bW4gc3BlY2lmaWNhdGlvbiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbkRlbGltaXRlcjogXCIsXCJcbmNociAoMTcpOiBjbXRlX2lkLCBhbW5kdF9pbmQsIHJwdF90cCwgdHJhbnNhY3Rpb25fcGdpLC4uLlxuZGJsICAoNCk6IGltYWdlX251bSwgdHJhbnNhY3Rpb25fYW10LCBmaWxlX251bSwgc3ViX2lkXG5cbuKEuSBVc2UgYHNwZWMoKWAgdG8gcmV0cmlldmUgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZGF0YS5cbuKEuSBTcGVjaWZ5IHRoZSBjb2x1bW4gdHlwZXMgb3Igc2V0IGBzaG93X2NvbF90eXBlcyA9IEZBTFNFYCB0byBxdWlldCB0aGlzIG1lc3NhZ2UuXG4ifQ== -->
+<pre><code>Rows: 32588 Columns: 21
+── Column specification ──────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (17): cmte_id, amndt_ind, rpt_tp, transaction_pgi,...
+dbl  (4): image_num, transaction_amt, file_num, sub_id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FuZGlkYXRlcyA8LSByZWFkX2NzdihcImRhdGEvY2FtcGZpbi9jYW5kaWRhdGVzLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>candidates &lt;- read_csv(&quot;data/campfin/candidates.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNjk2MiBDb2x1bW5zOiAxNVxu4pSA4pSAIENvbHVtbiBzcGVjaWZpY2F0aW9uIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgFxuRGVsaW1pdGVyOiBcIixcIlxuY2hyICgxNCk6IGNhbmRfaWQsIGNhbmRfbmFtZSwgcGFydHksIG9mZmljZV9zdCwgb2ZmaWNlLi4uXG5kYmwgICgxKTogZWxlY3Rpb25feXJcblxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 6962 Columns: 15
+── Column specification ──────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (14): cand_id, cand_name, party, office_st, office...
+dbl  (1): election_yr
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29tbWl0dGVlcyA8LSByZWFkX2NzdihcImRhdGEvY2FtcGZpbi9jb21taXR0ZWVzLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>committees &lt;- read_csv(&quot;data/campfin/committees.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTczODkgQ29sdW1uczogMTVcbuKUgOKUgCBDb2x1bW4gc3BlY2lmaWNhdGlvbiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbkRlbGltaXRlcjogXCIsXCJcbmNociAoMTUpOiBjbXRlX2lkLCBjbXRlX25tLCB0cmVzX25tLCBzdDEsIHN0MiwgY2l0eSwgcy4uLlxuXG7ihLkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG7ihLkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
+<pre><code>Rows: 17389 Columns: 15
+── Column specification ──────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (15): cmte_id, cmte_nm, tres_nm, st1, st2, city, s...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>#Documentation for these three tables:</p>
@@ -248,6 +315,21 @@ committees &lt;- read_csv(&quot;data/campfin/committees.csv&quot;)</code></pre>
 <pre class="r"><code>refunds &lt;- contributions %&gt;% filter(transaction_tp==&quot;22Y&quot;) %&gt;%
   mutate_if(is.numeric, funs(. * -1))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogYGZ1bnMoKWAgd2FzIGRlcHJlY2F0ZWQgaW4gZHBseXIgMC44LjAuXG5QbGVhc2UgdXNlIGEgbGlzdCBvZiBlaXRoZXIgZnVuY3Rpb25zIG9yIGxhbWJkYXM6IFxuXG4gICMgU2ltcGxlIG5hbWVkIGxpc3Q6IFxuICBsaXN0KG1lYW4gPSBtZWFuLCBtZWRpYW4gPSBtZWRpYW4pXG5cbiAgIyBBdXRvIG5hbWVkIHdpdGggYHRpYmJsZTo6bHN0KClgOiBcbiAgdGliYmxlOjpsc3QobWVhbiwgbWVkaWFuKVxuXG4gICMgVXNpbmcgbGFtYmRhc1xuICBsaXN0KH4gbWVhbiguLCB0cmltID0gLjIpLCB+IG1lZGlhbiguLCBuYS5ybSA9IFRSVUUpKVxuVGhpcyB3YXJuaW5nIGlzIGRpc3BsYXllZCBvbmNlIGV2ZXJ5IDggaG91cnMuXG5DYWxsIGBsaWZlY3ljbGU6Omxhc3RfbGlmZWN5Y2xlX3dhcm5pbmdzKClgIHRvIHNlZSB3aGVyZSB0aGlzIHdhcm5pbmcgd2FzIGdlbmVyYXRlZC5cbiJ9 -->
+<pre><code>Warning: `funs()` was deprecated in dplyr 0.8.0.
+Please use a list of either functions or lambdas: 
+
+  # Simple named list: 
+  list(mean = mean, median = median)
+
+  # Auto named with `tibble::lst()`: 
+  tibble::lst(mean, median)
+
+  # Using lambdas
+  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Make table without 22y so it doesn’t get zeroed out but actually negated</p>
@@ -266,47 +348,64 @@ committees &lt;- read_csv(&quot;data/campfin/committees.csv&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>#narrow down to senate race and join candidates to clean_contribs</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MywibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIzIMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFRUVU3RE1CRGNPREZWSTdVZzhZN20wZ3RIS3JWY0toQ3FxRlJ4TTJtQUNHTkhqaXZneGhzUVQraS9lQWtONjlnclVmdXlzMlBQN0k1WDg4MDAzK1FBa0VLV01FZzVRdURydTZ2SkJVREdzRWtnZzZHcjcvam9ISUVqejd5aXYwam5pMnVDcThVdHdmWE5Fc3ZZd2RuMCs4ZjV6cGI3KzArc2wxOTc4T2RvQWxmaXRXcURPeU95RWNaK1VHTzFGVEtTRFkxK0swZzZjbEkzbyt1NjM5aS9sS0lsZnlMenJiQ2llRFNveCs0UVNRYTZzYlZXS0dJdU9vL0VpWW1JMDUxeW0yd241Zk5PdmJnL2hMeS85bWNVY1BvUE16K1NkY0dLQjZ1VFNqM1ZxcUxkcFhpb1pHakdtTGdQWERTbVZwYVNJTnNXL29jQ1UycEpUSjhORG4rczNKTmk4UUVBQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["party"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"DEM","2":"1283295"},{"1":"REP","2":"3623093"},{"1":"UNK","2":"1193"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>#Run the shiny app template</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudWkgPC0gZmx1aWRQYWdlKFxuICBcbiAgdGl0bGVQYW5lbChcIk1pc3NvdXJpIFNlbmF0ZSBSYWNlXCIpXG4gIFxuKVxuXG5zZXJ2ZXIgPC0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCl7XG4gIFxuICBcbn1cblxuc2hpbnlBcHAodWk9dWkgLCBzZXJ2ZXIgPSBzZXJ2ZXIpXG5cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudWkgPC0gZmx1aWRQYWdlKFxuICBcbiAgdGl0bGVQYW5lbChcIk1pc3NvdXJpIFNlbmF0ZSBSYWNlXCIpLFxuICBcbiAgc2lkZWJhckxheW91dChcbiAgICBzaWRlYmFyUGFuZWwoIHNlbGVjdElucHV0KFwidmFyXCIsIFxuICAgICAgICAgICAgICAgICAgbGFiZWwgPSBcIkNob29zZSBhIHZhcmlhYmxlIHRvIGRpc3BsYXlcIixcbiAgICAgICAgICAgICAgICAgIGNob2ljZXMgPSBjKFwiUmVwdWJsaWNhblwiLCBcIkRlbW9jcmF0XCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlVua25vd25cIiksXG4gICAgICAgICAgICAgICAgICBzZWxlY3RlZCA9IFwiUmVwdWJsaWNhblwiKSksXG4gICAgbWFpblBhbmVsKCB0YWJsZU91dHB1dChcIlRCTFwiKSlcbiAgKVxuKVxuXG5zZXJ2ZXIgPC0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCl7XG4gIFxuICBvdXRwdXQkVEJMIDwtIHJlbmRlclRhYmxlKHtcbiAgICAgIHBhcnR5X2NvbnRyaWJzXG4gIH0pXG59XG5cbnNoaW55QXBwKHVpPXVpICwgc2VydmVyID0gc2VydmVyKVxuYGBgIn0= -->
 <pre class="r"><code>ui &lt;- fluidPage(
   
-  titlePanel(&quot;Missouri Senate Race&quot;)
+  titlePanel(&quot;Missouri Senate Race&quot;),
   
+  sidebarLayout(
+    sidebarPanel( selectInput(&quot;var&quot;, 
+                  label = &quot;Choose a variable to display&quot;,
+                  choices = c(&quot;Republican&quot;, &quot;Democrat&quot;,
+                              &quot;Unknown&quot;),
+                  selected = &quot;Republican&quot;)),
+    mainPanel( tableOutput(&quot;TBL&quot;))
+  )
 )
 
 server &lt;- function(input, output){
   
-  
+  output$TBL &lt;- renderTable({
+      party_contribs
+  })
 }
 
-shinyApp(ui=ui , server = server)
-</code></pre>
+shinyApp(ui=ui , server = server)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5MaXN0ZW5pbmcgb24gaHR0cDovLzEyNy4wLjAuMTo3NDQwXG4ifQ== -->
+<pre><code>
+Listening on http://127.0.0.1:7440</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>#Run example apps</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucnVuRXhhbXBsZShcIjAyX3RleHRcIilcblxuYGBgIn0= -->
-<pre class="r"><code>runExample(&quot;02_text&quot;)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucnVuRXhhbXBsZShcIjAyX3RleHRcIilcbmBgYCJ9 -->
+<pre class="r"><code>runExample(&quot;02_text&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5MaXN0ZW5pbmcgb24gaHR0cDovLzEyNy4wLjAuMTo0MTM4XG4ifQ== -->
-<pre><code>
-Listening on http://127.0.0.1:4138</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTkFcbiJ9 -->
-<pre><code>NA</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>#Note to Laura, tutorial timestamp 41:59 <a href="https://shiny.rstudio.com/tutorial/" class="uri">https://shiny.rstudio.com/tutorial/</a></p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBteSBub3RlYm9vayBmb3IgbXkgZmluYWwgcHJvamVjdC4gSSB3aWxsIGJlIG1ha2luZyBhIHdlYiBhcHBsaWNhdGlvbiB1c2luZyBzaGlueSB0byBzaG93IGNhbXBhaWduIGZpbmFuY2UgaW5mb3JtYXRpb24gZm9yIHRoZSBNaXNzb3VyaSBTZW5hdGUgcmFjZS4KCiNMb2FkIHBhY2thZ2VzCmBgYHtyfQpsaWJyYXJ5KHNoaW55KQpsaWJyYXJ5KHJzY29ubmVjdCkKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKYGBgCgojTG9hZCB0aGUgZGF0YQpgYGB7cn0KY29udHJpYnV0aW9ucyA8LSByZWFkX2NzdigiZGF0YS9jYW1wZmluL21vX2NvbnRyaWJ1dGlvbnMuY3N2IikKY2FuZGlkYXRlcyA8LSByZWFkX2NzdigiZGF0YS9jYW1wZmluL2NhbmRpZGF0ZXMuY3N2IikKY29tbWl0dGVlcyA8LSByZWFkX2NzdigiZGF0YS9jYW1wZmluL2NvbW1pdHRlZXMuY3N2IikKYGBgCgojRG9jdW1lbnRhdGlvbiBmb3IgdGhlc2UgdGhyZWUgdGFibGVzOiAKCioqSW5kaXZpZHVhbCBjb250cmlidXRpb25zKio6Cmh0dHBzOi8vd3d3LmZlYy5nb3YvY2FtcGFpZ24tZmluYW5jZS1kYXRhL2NvbnRyaWJ1dGlvbnMtaW5kaXZpZHVhbHMtZmlsZS1kZXNjcmlwdGlvbi8KKipDYW5kaWRhdGVzKio6IApodHRwczovL3d3dy5mZWMuZ292L2NhbXBhaWduLWZpbmFuY2UtZGF0YS9jYW5kaWRhdGUtbWFzdGVyLWZpbGUtZGVzY3JpcHRpb24vCioqQ29tbWl0dGVlcyoqOiAKaHR0cHM6Ly93d3cuZmVjLmdvdi9jYW1wYWlnbi1maW5hbmNlLWRhdGEvY29tbWl0dGVlLW1hc3Rlci1maWxlLWRlc2NyaXB0aW9uLwoKIyBERUFMIFdJVEggUkVGVU5EUwpVc2UgZnVuY3Rpb24gSSBmb3VuZCBvbmxpbmUgdG8gdHVybiBudW1lcmljIGRhdGEgbmVnYXRpdmUKYGBge3J9CnJlZnVuZHMgPC0gY29udHJpYnV0aW9ucyAlPiUgZmlsdGVyKHRyYW5zYWN0aW9uX3RwPT0iMjJZIikgJT4lCiAgbXV0YXRlX2lmKGlzLm51bWVyaWMsIGZ1bnMoLiAqIC0xKSkKYGBgCk1ha2UgdGFibGUgd2l0aG91dCAyMnkgc28gaXQgZG9lc24ndCBnZXQgemVyb2VkIG91dCBidXQgYWN0dWFsbHkgbmVnYXRlZApgYGB7cn0Kbm9fcmVmdW5kcyA8LSBjb250cmlidXRpb25zICU+JSBmaWx0ZXIodHJhbnNhY3Rpb25fdHAhPSIyMlkiKQpgYGAKQWRkIGluIG5lZ2F0aXZlIHJlZnVuZHMKYGBge3J9CmNsZWFuX2NvbnRyaWJzPC1ub19yZWZ1bmRzICU+JSBhZGRfcm93KHJlZnVuZHMpCmBgYAoKCgojUnVuIHRoZSBzaGlueSBhcHAgdGVtcGxhdGUKYGBge3J9CnVpIDwtIGZsdWlkUGFnZSgKICAKICB0aXRsZVBhbmVsKCJNaXNzb3VyaSBTZW5hdGUgUmFjZSIpCiAgCikKCnNlcnZlciA8LSBmdW5jdGlvbihpbnB1dCwgb3V0cHV0KXsKICAKICAKfQoKc2hpbnlBcHAodWk9dWkgLCBzZXJ2ZXIgPSBzZXJ2ZXIpCgpgYGAKCiNSdW4gZXhhbXBsZSBhcHBzCmBgYHtyfQpydW5FeGFtcGxlKCIwMl90ZXh0IikKYGBgCgoKI05vdGUgdG8gTGF1cmEsIHR1dG9yaWFsIHRpbWVzdGFtcCA0MTo1OSBodHRwczovL3NoaW55LnJzdHVkaW8uY29tL3R1dG9yaWFsLw==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBteSBub3RlYm9vayBmb3IgbXkgZmluYWwgcHJvamVjdC4gSSB3aWxsIGJlIG1ha2luZyBhIHdlYiBhcHBsaWNhdGlvbiB1c2luZyBzaGlueSB0byBzaG93IGNhbXBhaWduIGZpbmFuY2UgaW5mb3JtYXRpb24gZm9yIHRoZSBNaXNzb3VyaSBTZW5hdGUgcmFjZS4KCiNMb2FkIHBhY2thZ2VzCmBgYHtyfQpsaWJyYXJ5KHNoaW55KQpsaWJyYXJ5KHJzY29ubmVjdCkKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKYGBgCgojTG9hZCB0aGUgZGF0YQpgYGB7cn0KY29udHJpYnV0aW9ucyA8LSByZWFkX2NzdigiZGF0YS9jYW1wZmluL21vX2NvbnRyaWJ1dGlvbnMuY3N2IikKY2FuZGlkYXRlcyA8LSByZWFkX2NzdigiZGF0YS9jYW1wZmluL2NhbmRpZGF0ZXMuY3N2IikKY29tbWl0dGVlcyA8LSByZWFkX2NzdigiZGF0YS9jYW1wZmluL2NvbW1pdHRlZXMuY3N2IikKYGBgCgojRG9jdW1lbnRhdGlvbiBmb3IgdGhlc2UgdGhyZWUgdGFibGVzOiAKCioqSW5kaXZpZHVhbCBjb250cmlidXRpb25zKio6Cmh0dHBzOi8vd3d3LmZlYy5nb3YvY2FtcGFpZ24tZmluYW5jZS1kYXRhL2NvbnRyaWJ1dGlvbnMtaW5kaXZpZHVhbHMtZmlsZS1kZXNjcmlwdGlvbi8KKipDYW5kaWRhdGVzKio6IApodHRwczovL3d3dy5mZWMuZ292L2NhbXBhaWduLWZpbmFuY2UtZGF0YS9jYW5kaWRhdGUtbWFzdGVyLWZpbGUtZGVzY3JpcHRpb24vCioqQ29tbWl0dGVlcyoqOiAKaHR0cHM6Ly93d3cuZmVjLmdvdi9jYW1wYWlnbi1maW5hbmNlLWRhdGEvY29tbWl0dGVlLW1hc3Rlci1maWxlLWRlc2NyaXB0aW9uLwoKIyBERUFMIFdJVEggUkVGVU5EUwpVc2UgZnVuY3Rpb24gSSBmb3VuZCBvbmxpbmUgdG8gdHVybiBudW1lcmljIGRhdGEgbmVnYXRpdmUKYGBge3J9CnJlZnVuZHMgPC0gY29udHJpYnV0aW9ucyAlPiUgZmlsdGVyKHRyYW5zYWN0aW9uX3RwPT0iMjJZIikgJT4lCiAgbXV0YXRlX2lmKGlzLm51bWVyaWMsIGZ1bnMoLiAqIC0xKSkKYGBgCk1ha2UgdGFibGUgd2l0aG91dCAyMnkgc28gaXQgZG9lc24ndCBnZXQgemVyb2VkIG91dCBidXQgYWN0dWFsbHkgbmVnYXRlZApgYGB7cn0Kbm9fcmVmdW5kcyA8LSBjb250cmlidXRpb25zICU+JSBmaWx0ZXIodHJhbnNhY3Rpb25fdHAhPSIyMlkiKQpgYGAKQWRkIGluIG5lZ2F0aXZlIHJlZnVuZHMKYGBge3J9CmNsZWFuX2NvbnRyaWJzPC1ub19yZWZ1bmRzICU+JSBhZGRfcm93KHJlZnVuZHMpCmBgYAoKI25hcnJvdyBkb3duIHRvIHNlbmF0ZSByYWNlIGFuZCBqb2luIGNhbmRpZGF0ZXMgdG8gY2xlYW5fY29udHJpYnMKYGBge3J9CnBhcnR5X2NvbnRyaWJzIDwtIGNhbmRpZGF0ZXMgJT4lIAogIGZpbHRlcihlbGVjdGlvbl95cj09IjIwMjIiICYgb2ZmaWNlX3N0PT0iTU8iICYgb2ZmaWNlPT0iUyIpICU+JQogIGlubmVyX2pvaW4oY2xlYW5fY29udHJpYnMsIGJ5PWMoInBjYyI9ImNtdGVfaWQiKSkgJT4lCiAgZ3JvdXBfYnkocGFydHkpICU+JQogIHN1bW1hcmlzZSh0b3RhbCA9IHN1bSh0cmFuc2FjdGlvbl9hbXQpKQpgYGAKCgojUnVuIHRoZSBzaGlueSBhcHAgdGVtcGxhdGUKYGBge3J9CnVpIDwtIGZsdWlkUGFnZSgKICAKICB0aXRsZVBhbmVsKCJNaXNzb3VyaSBTZW5hdGUgUmFjZSIpLAogIAogIHNpZGViYXJMYXlvdXQoCiAgICBzaWRlYmFyUGFuZWwoIHNlbGVjdElucHV0KCJ2YXIiLCAKICAgICAgICAgICAgICAgICAgbGFiZWwgPSAiQ2hvb3NlIGEgdmFyaWFibGUgdG8gZGlzcGxheSIsCiAgICAgICAgICAgICAgICAgIGNob2ljZXMgPSBjKCJSZXB1YmxpY2FuIiwgIkRlbW9jcmF0IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlVua25vd24iKSwKICAgICAgICAgICAgICAgICAgc2VsZWN0ZWQgPSAiUmVwdWJsaWNhbiIpKSwKICAgIG1haW5QYW5lbCggdGFibGVPdXRwdXQoIlRCTCIpKQogICkKKQoKc2VydmVyIDwtIGZ1bmN0aW9uKGlucHV0LCBvdXRwdXQpewogIAogIG91dHB1dCRUQkwgPC0gcmVuZGVyVGFibGUoewogICAgICBwYXJ0eV9jb250cmlicwogIH0pCn0KCnNoaW55QXBwKHVpPXVpICwgc2VydmVyID0gc2VydmVyKQoKYGBgCgojUnVuIGV4YW1wbGUgYXBwcwpgYGB7cn0KcnVuRXhhbXBsZSgiMDJfdGV4dCIpCmBgYAoKCiNOb3RlIHRvIExhdXJhLCB0dXRvcmlhbCB0aW1lc3RhbXAgNDE6NTkgaHR0cHM6Ly9zaGlueS5yc3R1ZGlvLmNvbS90dXRvcmlhbC8=</div>
 
 
 
