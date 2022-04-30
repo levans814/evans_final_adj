@@ -53,6 +53,37 @@ party_contribs <- candidates %>%
   summarise(total = sum(transaction_amt))
 ```
 
+#totals for candidates, republican
+```{r}
+rep_cand_totals <- candidates %>% 
+  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
+  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
+  filter(party=="REP") %>% 
+  group_by(cand_name) %>% 
+  summarise(total=sum(transaction_amt)) %>% 
+  arrange(desc(total))
+```
+#totals for cand, dems
+```{r}
+dem_cand_totals <- candidates %>% 
+  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
+  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
+  filter(party=="DEM") %>% 
+  group_by(cand_name) %>% 
+  summarise(total=sum(transaction_amt)) %>% 
+  arrange(desc(total))
+```
+#totals for cands, unk
+```{r}
+unk_cand_totals <- candidates %>% 
+  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
+  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
+  filter(party=="UNK") %>% 
+  group_by(cand_name) %>% 
+  summarise(total=sum(transaction_amt)) %>% 
+  arrange(desc(total))
+```
+
 
 #Run the shiny app template
 ```{r}
@@ -74,6 +105,10 @@ server <- function(input, output){
   
   output$TBL <- renderTable({
       party_contribs
+  })
+  
+  output$table <- renderTable({
+    
   })
 }
 
