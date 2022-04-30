@@ -96,9 +96,13 @@ ui <- fluidPage(
                   label = "Choose a variable to display",
                   choices = c("Republican", "Democrat",
                               "Unknown"),
-                  selected = "Republican")),
-    mainPanel( tableOutput("TBL"))
+                  selected = "Republican")
+                  ),
+    
+    mainPanel(tableOutput("table"), tableOutput("TBL"))
   )
+  
+  
 )
 
 server <- function(input, output){
@@ -107,11 +111,13 @@ server <- function(input, output){
       party_contribs
   })
   
-  output$table <- renderTable({
-    
-  })
+  output$table <- renderTable({data <- switch(input$var, 
+                   "Republican" = rep_cand_totals,
+                   "Democrat" = dem_cand_totals,
+                   "Unknown" = unk_cand_totals)
+  
+})
 }
-
 shinyApp(ui=ui , server = server)
 
 ```
@@ -122,4 +128,4 @@ runExample("02_text")
 ```
 
 
-#Note to Laura, tutorial timestamp 41:59 https://shiny.rstudio.com/tutorial/
+#Note to Laura, tutorial timestamp 1:00:11 https://shiny.rstudio.com/tutorial/
