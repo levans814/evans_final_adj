@@ -172,9 +172,12 @@ output$varPlot <- renderPlot(ggplot({data <- switch(input$var,
                    "Republican" = rep_no_blunt,
                    "Democrat" = dem_cand_totals,
                    "Unknown" = unk_cand_totals)}, aes(reorder(cand_name, total))) +
-  geom_bar(aes(weight = total), fill = "#3CAEA3") + 
+  geom_bar(aes(weight = total), fill = switch(input$var, 
+                   "Republican" = "#ED5533",
+                   "Democrat" = "#173F5F",
+                   "Unknown" = "#F6D55C")) + 
   coord_flip() +
-  ggtitle("Total candidate contributions") +
+  ggtitle("Candidate contributions") +
   xlab("Candidate") +
   ylab("Sum of contributions") +
   theme_bw(base_size = 16))
