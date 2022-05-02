@@ -121,9 +121,7 @@ ui <- fluidPage(
     
     mainPanel(
       tableOutput("table"),
-      plotOutput("demPlot"),
-      plotOutput("repPlot"),
-      plotOutput("unkPlot"))
+      plotOutput("varPlot"))
   ),
 ),
 
@@ -132,14 +130,14 @@ ui <- fluidPage(
 sidebarLayout(
     sidebarPanel(
       h4("Total contributions by party:"),
-
-      tableOutput("TBL")
+      tableOutput("TBL"),
+      h4("Total contributions by candidate"),
+      tableOutput("all_cands")
                      ),
     
     mainPanel(
       h3("Contribution sums for all candidates"),
-      plotOutput("candPlot"),
-      tableOutput("all_cands")
+      plotOutput("candPlot")
       )
   ),
 tags$hr()  
@@ -170,29 +168,17 @@ server <- function(input, output){
   ylab("Sum of contributions") +
   theme_bw(base_size = 16))
 
-   output$demPlot <- renderPlot(ggplot(dem_cand_totals, aes(reorder(dem_cand_totals$cand_name, dem_cand_totals$total))) +
-  geom_bar(aes(weight = dem_cand_totals$total), fill = "#173F5F") + 
+output$varPlot <- renderPlot(ggplot({data <- switch(input$var, 
+                   "Republican" = rep_no_blunt,
+                   "Democrat" = dem_cand_totals,
+                   "Unknown" = unk_cand_totals)}, aes(reorder(cand_name, total))) +
+  geom_bar(aes(weight = total), fill = "#3CAEA3") + 
   coord_flip() +
   ggtitle("Total candidate contributions") +
   xlab("Candidate") +
   ylab("Sum of contributions") +
   theme_bw(base_size = 16))
-   
-   output$repPlot <- renderPlot(ggplot(rep_no_blunt, aes(reorder(rep_no_blunt$cand_name, rep_no_blunt$total))) +
-  geom_bar(aes(weight = rep_no_blunt$total), fill = "#ED5533") + 
-  coord_flip() +
-  ggtitle("Total candidate contributions") +
-  xlab("Candidate") +
-  ylab("Sum of contributions") +
-  theme_bw(base_size = 16))
- 
-output$unkPlot <- renderPlot(ggplot(unk_cand_totals, aes(reorder(unk_cand_totals$cand_name, unk_cand_totals$total))) +
-  geom_bar(aes(weight = unk_cand_totals$total), fill = "#F6D55C") + 
-  coord_flip() +
-  ggtitle("Total candidate contributions") +
-  xlab("Candidate") +
-  ylab("Sum of contributions") +
-  theme_bw(base_size = 16))
+
 }
 
 shinyApp(ui=ui , server = server)
