@@ -53,7 +53,7 @@ party_contribs <- candidates %>%
   summarise(total = sum(transaction_amt))
 ```
 
-#totals for candidates, all
+#totals for candidates, all, then remove blunt for graphs
 ```{r}
 all_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
@@ -61,10 +61,13 @@ all_cand_totals <- candidates %>%
   group_by(cand_name) %>% 
   summarise(total=sum(transaction_amt)) %>% 
   arrange(desc(total))
+
+all_no_blunt <- all_cand_totals %>% 
+  filter(cand_name!="BLUNT, ROY")
 ```
 
 
-#totals for candidates, republican
+#totals for candidates, republican, then remove blunt for graphs
 ```{r}
 rep_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
@@ -73,6 +76,9 @@ rep_cand_totals <- candidates %>%
   group_by(cand_name) %>% 
   summarise(total=sum(transaction_amt)) %>% 
   arrange(desc(total))
+
+rep_no_blunt <- rep_cand_totals %>% 
+  filter(cand_name!="BLUNT, ROY")
 ```
 #totals for cand, dems
 ```{r}
@@ -114,8 +120,10 @@ ui <- fluidPage(
 ),
     
     mainPanel(
-      tableOutput("table"), 
-      plotOutput("candPlot"))
+      tableOutput("table"),
+      plotOutput("demPlot"),
+      plotOutput("repPlot"),
+      plotOutput("unkPlot"))
   ),
 ),
 
@@ -130,6 +138,7 @@ sidebarLayout(
     
     mainPanel(
       h3("Contribution sums for all candidates"),
+      plotOutput("candPlot"),
       tableOutput("all_cands")
       )
   ),
@@ -153,8 +162,37 @@ server <- function(input, output){
                    "Unknown" = unk_cand_totals)
   
 })
-  output$candPlot <- renderPlot({plot(rep_cand_totals$cand_name,rep_cand_totals$total)
-    })
+  output$candPlot <- renderPlot(ggplot(all_no_blunt, aes(reorder(all_no_blunt$cand_name, all_no_blunt$total))) +
+  geom_bar(aes(weight = all_no_blunt$total), fill = "#3CAEA3") + 
+  coord_flip() +
+  ggtitle("Total candidate contributions") +
+  xlab("Candidate") +
+  ylab("Sum of contributions") +
+  theme_bw(base_size = 16))
+
+   output$demPlot <- renderPlot(ggplot(dem_cand_totals, aes(reorder(dem_cand_totals$cand_name, dem_cand_totals$total))) +
+  geom_bar(aes(weight = dem_cand_totals$total), fill = "#173F5F") + 
+  coord_flip() +
+  ggtitle("Total candidate contributions") +
+  xlab("Candidate") +
+  ylab("Sum of contributions") +
+  theme_bw(base_size = 16))
+   
+   output$repPlot <- renderPlot(ggplot(rep_no_blunt, aes(reorder(rep_no_blunt$cand_name, rep_no_blunt$total))) +
+  geom_bar(aes(weight = rep_no_blunt$total), fill = "#ED5533") + 
+  coord_flip() +
+  ggtitle("Total candidate contributions") +
+  xlab("Candidate") +
+  ylab("Sum of contributions") +
+  theme_bw(base_size = 16))
+ 
+output$unkPlot <- renderPlot(ggplot(unk_cand_totals, aes(reorder(unk_cand_totals$cand_name, unk_cand_totals$total))) +
+  geom_bar(aes(weight = unk_cand_totals$total), fill = "#F6D55C") + 
+  coord_flip() +
+  ggtitle("Total candidate contributions") +
+  xlab("Candidate") +
+  ylab("Sum of contributions") +
+  theme_bw(base_size = 16))
 }
 
 shinyApp(ui=ui , server = server)
