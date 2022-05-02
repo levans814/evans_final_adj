@@ -109,11 +109,13 @@ ui <- fluidPage(
                   choices = c("Republican", "Democrat",
                               "Unknown"),
                   selected = "Republican"),
-p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
+                p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
 
 ),
     
-    mainPanel(tableOutput("table"), plotOutput("candPlot"))
+    mainPanel(
+      tableOutput("table"), 
+      plotOutput("candPlot"))
   ),
 ),
 
@@ -121,9 +123,9 @@ p("After Sen. Roy Blunt announced he would not be running for reelection for the
 
 sidebarLayout(
     sidebarPanel(
-h4("Total contributions by party:"),
+      h4("Total contributions by party:"),
 
-tableOutput("TBL")
+      tableOutput("TBL")
                      ),
     
     mainPanel(
@@ -151,12 +153,8 @@ server <- function(input, output){
                    "Unknown" = unk_cand_totals)
   
 })
-  output$candPlot <- renderPlot({data = switch(input$var, 
-                   "Republican" = rep_cand_totals,
-                   "Democrat" = dem_cand_totals,
-                   "Unknown" = unk_cand_totals)
-  
-})
+  output$candPlot <- renderPlot({plot(rep_cand_totals$cand_name,rep_cand_totals$total)
+    })
 }
 
 shinyApp(ui=ui , server = server)
@@ -166,7 +164,7 @@ shinyApp(ui=ui , server = server)
 #Tasks!
 - add reactive graphs!
 - try to modify tables so they're easier to read -- column names, title case the cand names, add commas to the totals etc.
-- add in a blurb about refunds, explaining Blunt
+- add in a blurb about refunds, explaining Blunt negative
 - style the web app (put non reactive total information in own column, make it prettier, etc.)
 - add a normal p blurb about what the web app is, perhaps in the sidebar
 
