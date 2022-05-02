@@ -35,11 +35,11 @@ Use function I found online to turn numeric data negative
 refunds <- contributions %>% filter(transaction_tp=="22Y") %>%
   mutate_if(is.numeric, funs(. * -1))
 ```
-Make table without 22y so it doesn't get zeroed out but actually negated
+#Make table without 22y so it doesn't get zeroed out but actually negated
 ```{r}
 no_refunds <- contributions %>% filter(transaction_tp!="22Y")
 ```
-Add in negative refunds
+#Add in negative refunds
 ```{r}
 clean_contribs<-no_refunds %>% add_row(refunds)
 ```
@@ -97,8 +97,7 @@ unk_cand_totals <- candidates %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   filter(party=="UNK") %>% 
   group_by(cand_name) %>% 
-  summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
+  summarise(total=sum(transaction_amt))
 ```
 
 
@@ -127,6 +126,7 @@ ui <- fluidPage(
 
  tags$hr(),  
 
+h2("Totals"),
 sidebarLayout(
     sidebarPanel(
       h4("Total contributions by party:"),
