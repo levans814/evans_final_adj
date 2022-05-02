@@ -53,6 +53,17 @@ party_contribs <- candidates %>%
   summarise(total = sum(transaction_amt))
 ```
 
+#totals for candidates, all
+```{r}
+all_cand_totals <- candidates %>% 
+  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
+  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
+  group_by(cand_name) %>% 
+  summarise(total=sum(transaction_amt)) %>% 
+  arrange(desc(total))
+```
+
+
 #totals for candidates, republican
 ```{r}
 rep_cand_totals <- candidates %>% 
@@ -91,7 +102,8 @@ ui <- fluidPage(
   
   titlePanel("Missouri Senate Race"),
   
-  sidebarLayout(
+ verticalLayout(
+   sidebarLayout(
     sidebarPanel( selectInput("var", 
                   label = "Choose a variable to display",
                   choices = c("Republican", "Democrat",
@@ -99,15 +111,28 @@ ui <- fluidPage(
                   selected = "Republican"),
 p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
 
+),
+    
+    mainPanel(tableOutput("table"), plotOutput("candPlot"))
+  ),
+),
+
+ tags$hr(),  
+
+sidebarLayout(
+    sidebarPanel(
 h4("Total contributions by party:"),
 
 tableOutput("TBL")
                      ),
     
-    mainPanel(tableOutput("table"), plotOutput("repPlot"))
-  )
-  
-  
+    mainPanel(
+      h3("Contribution sums for all candidates"),
+      tableOutput("all_cands")
+      )
+  ),
+tags$hr()  
+
 )
 
 server <- function(input, output){
@@ -116,13 +141,22 @@ server <- function(input, output){
       party_contribs
   })
   
+  output$all_cands <- renderTable({
+      all_cand_totals
+  })
+  
   output$table <- renderTable({data <- switch(input$var, 
                    "Republican" = rep_cand_totals,
                    "Democrat" = dem_cand_totals,
                    "Unknown" = unk_cand_totals)
   
 })
-  output$repPlot <- renderPlot(ggplot(rep_cand_totals))
+  output$candPlot <- renderPlot({data = switch(input$var, 
+                   "Republican" = rep_cand_totals,
+                   "Democrat" = dem_cand_totals,
+                   "Unknown" = unk_cand_totals)
+  
+})
 }
 
 shinyApp(ui=ui , server = server)
