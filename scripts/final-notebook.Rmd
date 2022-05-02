@@ -96,10 +96,15 @@ ui <- fluidPage(
                   label = "Choose a variable to display",
                   choices = c("Republican", "Democrat",
                               "Unknown"),
-                  selected = "Republican")
-                  ),
+                  selected = "Republican"),
+p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
+
+h4("Total contributions by party:"),
+
+tableOutput("TBL")
+                     ),
     
-    mainPanel(tableOutput("table"), tableOutput("TBL"))
+    mainPanel(tableOutput("table"), plotOutput("repPlot"))
   )
   
   
@@ -117,15 +122,20 @@ server <- function(input, output){
                    "Unknown" = unk_cand_totals)
   
 })
+  output$repPlot <- renderPlot(ggplot(rep_cand_totals))
 }
+
 shinyApp(ui=ui , server = server)
 
 ```
 
-#Run example apps
-```{r}
-runExample("02_text")
-```
+#Tasks!
+- add reactive graphs!
+- try to modify tables so they're easier to read -- column names, title case the cand names, add commas to the totals etc.
+- add in a blurb about refunds, explaining Blunt
+- style the web app (put non reactive total information in own column, make it prettier, etc.)
+- add a normal p blurb about what the web app is, perhaps in the sidebar
+
 
 
 #Note to Laura, tutorial timestamp 1:00:11 https://shiny.rstudio.com/tutorial/
