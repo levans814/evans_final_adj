@@ -62,6 +62,10 @@ all_cand_totals <- candidates %>%
   summarise(total=sum(transaction_amt)) %>% 
   arrange(desc(total))
 
+new_names <-  sapply(strsplit(all_cand_totals$cand_name, split=", "),function(x) 
+  {paste(rev(x),collapse=" ")}) %>%
+    str_to_title()
+
 all_no_blunt <- all_cand_totals %>% 
   filter(cand_name!="BLUNT, ROY")
 ```
@@ -197,4 +201,4 @@ shinyApp(ui=ui , server = server)
 
 
 
-#Note to Laura, tutorial timestamp 1:00:11 https://shiny.rstudio.com/tutorial/
+#Note to Laura, tutorial timestamp 1:36:53 https://shiny.rstudio.com/tutorial/
