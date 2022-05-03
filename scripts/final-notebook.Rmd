@@ -51,7 +51,8 @@ party_contribs <- candidates %>%
   filter(election_yr=="2022" & office_st=="MO" & office=="S" & cand_name!="BLUNT, ROY") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   group_by(party) %>%
-  summarise(total = sum(transaction_amt))
+  summarise(total = sum(transaction_amt))%>%
+    mutate_each(funs(prettyNum(., big.mark=",")))
 ```
 
 #totals for candidates, all, then remove blunt for graphs
@@ -70,6 +71,9 @@ all_cand_totals <- candidates %>%
   arrange(desc(total)) %>% 
   mutate(names, .before=1) %>% 
   select(names, total)
+
+all_cand_commas <- all_cand_totals %>%
+    mutate_each(funs(prettyNum(., big.mark=",")))
 
 all_no_blunt <- all_cand_totals %>% 
   filter(names!="Roy Blunt")
@@ -90,6 +94,9 @@ rep_cand_totals <- candidates %>%
   mutate(rep.names, .before=1) %>% 
   select(names, total)
 
+rep_cand_commas <- rep_cand_totals %>% 
+  mutate_each(funs(prettyNum(., big.mark=",")))
+
 rep_no_blunt <- rep_cand_totals %>% 
   filter(names!="Roy Blunt")
 ```
@@ -106,6 +113,9 @@ dem_cand_totals <- candidates %>%
   arrange(desc(total)) %>% 
   mutate(dem.names, .before=1) %>% 
   select(names, total)
+
+dem_cand_commas <- dem_cand_totals%>%
+    mutate_each(funs(prettyNum(., big.mark=",")))
 ```
 #totals for cands, unk
 ```{r}
@@ -119,6 +129,9 @@ unk_cand_totals <- candidates %>%
   summarise(total=sum(transaction_amt))%>% 
   mutate(unk.name, .before=1) %>% 
   select(names, total)
+
+unk_cand_commas <- unk_cand_totals %>%
+    mutate_each(funs(prettyNum(., big.mark=",")))
 ```
 
 
@@ -126,7 +139,7 @@ unk_cand_totals <- candidates %>%
 ```{r}
 ui <- fluidPage(
   
-  titlePanel("Missouri Senate Race"),
+  h1("Missouri Senate Race"),
   
  verticalLayout(
    sidebarLayout(
@@ -136,9 +149,9 @@ ui <- fluidPage(
                               "Unknown"),
                   selected = "Republican"),
                 p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
+                p("Senator Blunt's contribution sum returns negative, as Blunt has issued refunds to donors. As such, Blunt has been excluded from the graphs on this website."),
 p("This data is taken from the Federal Exchange Commission's website. It was accessed in late February, so the information is not up to date."),
-tags$a(href="https://www.fec.gov/campaign-finance-data/", "Click here to access the FEC's campaign finance data."),
-p("Senator Blunt's sum returns negative, as Blunt has been issuing refunds to donors. As such, Blunt has been excluded from the graphs on this website.")
+tags$a(href="https://www.fec.gov/campaign-finance-data/", "Click here to access the FEC's campaign finance data.")
 ),
     
     mainPanel(
@@ -175,13 +188,13 @@ server <- function(input, output){
   })
   
   output$all_cands <- renderTable({
-      all_cand_totals
+      all_cand_commas
   })
   
   output$table <- renderTable({data <- switch(input$var, 
-                   "Republican" = rep_cand_totals,
-                   "Democrat" = dem_cand_totals,
-                   "Unknown" = unk_cand_totals)
+                   "Republican" = rep_cand_commas,
+                   "Democrat" = dem_cand_commas,
+                   "Unknown" = unk_cand_commas)
   
 })
   output$candPlot <- renderPlot(ggplot(all_no_blunt, aes(reorder(all_no_blunt$names, all_no_blunt$total))) +
