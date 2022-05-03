@@ -47,7 +47,7 @@ clean_contribs<-no_refunds %>% add_row(refunds)
 #narrow down to senate race and join candidates to clean_contribs
 ```{r}
 party_contribs <- candidates %>% 
-  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
+  filter(election_yr=="2022" & office_st=="MO" & office=="S" & cand_name!="BLUNT, ROY") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   group_by(party) %>%
   summarise(total = sum(transaction_amt))
@@ -60,20 +60,24 @@ all_cand_totals <- candidates %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   group_by(cand_name) %>% 
   summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
+  arrange(desc(total)) %>% 
+  mutate(Name, .before=1) %>% 
+  select(names, total)
 
-new_names <-  sapply(strsplit(all_cand_totals$cand_name, split=", "),function(x) 
-  {paste(rev(x),collapse=" ")}) %>%
-    str_to_title()
+#names<-data.frame(Names = sapply(strsplit(all_cand_totals$cand_name, split=", "),function(x)  {paste(rev(x),collapse=" ")}) %>%
+    #str_to_title())
+#I got so frustrated by not knowing what to do with the Mr.s and Jr.s and the initials whatnot that I'm just going to write their names in a vector since there are only 13
+
+Name<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Lucas Kunce", "Scott Sifton", "Eric Greitens", "Mark T. Mccloskey", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross", "Nicholas Crane Strauss", "Roy Blunt"))
 
 all_no_blunt <- all_cand_totals %>% 
-  filter(cand_name!="BLUNT, ROY")
+  filter(names!="Roy Blunt")
 ```
 
 
 #totals for candidates, republican, then remove blunt for graphs
 ```{r}
-rep_cand_totals <- candidates %>% 
+rep_cand_totals <- all_cand_totals %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   filter(party=="REP") %>% 
