@@ -56,6 +56,12 @@ party_contribs <- candidates %>%
 
 #totals for candidates, all, then remove blunt for graphs
 ```{r}
+#names<-data.frame(Names = sapply(strsplit(all_cand_totals$cand_name, split=", "),function(x)  {paste(rev(x),collapse=" ")}) %>%
+    #str_to_title())
+#I got so frustrated by not knowing what to do with the Mr.s and Jr.s and the initials whatnot that I'm just going to write their names in a vector since there are only 13
+
+names<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Lucas Kunce", "Scott Sifton", "Eric Greitens", "Mark T. Mccloskey", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross", "Nicholas Crane Strauss", "Roy Blunt"))
+
 all_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
@@ -65,12 +71,6 @@ all_cand_totals <- candidates %>%
   mutate(names, .before=1) %>% 
   select(names, total)
 
-#names<-data.frame(Names = sapply(strsplit(all_cand_totals$cand_name, split=", "),function(x)  {paste(rev(x),collapse=" ")}) %>%
-    #str_to_title())
-#I got so frustrated by not knowing what to do with the Mr.s and Jr.s and the initials whatnot that I'm just going to write their names in a vector since there are only 13
-
-names<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Lucas Kunce", "Scott Sifton", "Eric Greitens", "Mark T. Mccloskey", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross", "Nicholas Crane Strauss", "Roy Blunt"))
-
 all_no_blunt <- all_cand_totals %>% 
   filter(names!="Roy Blunt")
 ```
@@ -78,6 +78,8 @@ all_no_blunt <- all_cand_totals %>%
 
 #totals for candidates, republican, then remove blunt for graphs
 ```{r}
+rep.names<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Eric Greitens", "Mark T. Mccloskey", "Roy Blunt"))
+
 rep_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
@@ -88,13 +90,13 @@ rep_cand_totals <- candidates %>%
   mutate(rep.names, .before=1) %>% 
   select(names, total)
 
-rep.names<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Eric Greitens", "Mark T. Mccloskey", "Roy Blunt"))
-
 rep_no_blunt <- rep_cand_totals %>% 
   filter(names!="Roy Blunt")
 ```
 #totals for cand, dems
 ```{r}
+dem.names <- data.frame(names = c("Lucas Kunce", "Scott Sifton", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross"))
+
 dem_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
@@ -104,13 +106,11 @@ dem_cand_totals <- candidates %>%
   arrange(desc(total)) %>% 
   mutate(dem.names, .before=1) %>% 
   select(names, total)
-
-dem.names <- data.frame(names = c("Lucas Kunce", "Scott Sifton", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross"))
-
-
 ```
 #totals for cands, unk
 ```{r}
+unk.name <- data.frame(names = c("Nicholas Crane Strauss"))
+
 unk_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
@@ -119,8 +119,6 @@ unk_cand_totals <- candidates %>%
   summarise(total=sum(transaction_amt))%>% 
   mutate(unk.name, .before=1) %>% 
   select(names, total)
-
-unk.name <- data.frame(names = c("Nicholas Crane Strauss"))
 ```
 
 
@@ -133,17 +131,20 @@ ui <- fluidPage(
  verticalLayout(
    sidebarLayout(
     sidebarPanel( selectInput("var", 
-                  label = "Choose a variable to display",
+                  label = "Choose a party to display",
                   choices = c("Republican", "Democrat",
                               "Unknown"),
                   selected = "Republican"),
                 p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
-
+p("This data is taken from the Federal Exchange Commission's website. It was accessed in late February, so the information is not up to date."),
+tags$a(href="https://www.fec.gov/campaign-finance-data/", "Click here to access the FEC's campaign finance data."),
+p("Senator Blunt's sum returns negative, as Blunt has been issuing refunds to donors. As such, Blunt has been excluded from the graphs on this website.")
 ),
     
     mainPanel(
       tableOutput("table"),
-      plotOutput("varPlot"))
+      plotOutput("varPlot")
+     )
   ),
 ),
 
