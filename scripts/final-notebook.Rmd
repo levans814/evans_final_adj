@@ -11,6 +11,7 @@ library(shiny)
 library(rsconnect)
 library(tidyverse)
 library(janitor)
+library(scales)
 ```
 
 #Load the data
@@ -44,7 +45,7 @@ no_refunds <- contributions %>% filter(transaction_tp!="22Y")
 clean_contribs<-no_refunds %>% add_row(refunds)
 ```
 
-#narrow down to senate race and join candidates to clean_contribs
+#narrow down to senate race and join candidates to clean_contribs, no roy blunt
 ```{r}
 party_contribs <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S" & cand_name!="BLUNT, ROY") %>%
@@ -61,14 +62,14 @@ all_cand_totals <- candidates %>%
   group_by(cand_name) %>% 
   summarise(total=sum(transaction_amt)) %>% 
   arrange(desc(total)) %>% 
-  mutate(Name, .before=1) %>% 
+  mutate(names, .before=1) %>% 
   select(names, total)
 
 #names<-data.frame(Names = sapply(strsplit(all_cand_totals$cand_name, split=", "),function(x)  {paste(rev(x),collapse=" ")}) %>%
     #str_to_title())
 #I got so frustrated by not knowing what to do with the Mr.s and Jr.s and the initials whatnot that I'm just going to write their names in a vector since there are only 13
 
-Name<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Lucas Kunce", "Scott Sifton", "Eric Greitens", "Mark T. Mccloskey", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross", "Nicholas Crane Strauss", "Roy Blunt"))
+names<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Lucas Kunce", "Scott Sifton", "Eric Greitens", "Mark T. Mccloskey", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross", "Nicholas Crane Strauss", "Roy Blunt"))
 
 all_no_blunt <- all_cand_totals %>% 
   filter(names!="Roy Blunt")
@@ -77,16 +78,20 @@ all_no_blunt <- all_cand_totals %>%
 
 #totals for candidates, republican, then remove blunt for graphs
 ```{r}
-rep_cand_totals <- all_cand_totals %>% 
+rep_cand_totals <- candidates %>% 
   filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   filter(party=="REP") %>% 
   group_by(cand_name) %>% 
   summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
+  arrange(desc(total)) %>% 
+  mutate(rep.names, .before=1) %>% 
+  select(names, total)
+
+rep.names<- data.frame(names = c("Eric Schmitt", "Vicky J. Hartzler", "Billy Long", "Eric Greitens", "Mark T. Mccloskey", "Roy Blunt"))
 
 rep_no_blunt <- rep_cand_totals %>% 
-  filter(cand_name!="BLUNT, ROY")
+  filter(names!="Roy Blunt")
 ```
 #totals for cand, dems
 ```{r}
@@ -96,7 +101,13 @@ dem_cand_totals <- candidates %>%
   filter(party=="DEM") %>% 
   group_by(cand_name) %>% 
   summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
+  arrange(desc(total)) %>% 
+  mutate(dem.names, .before=1) %>% 
+  select(names, total)
+
+dem.names <- data.frame(names = c("Lucas Kunce", "Scott Sifton", "Spencer Ross Toder", "Jewel William Kelly Jr.", "Timothy Jacob Shepard", "Gena Ross"))
+
+
 ```
 #totals for cands, unk
 ```{r}
@@ -105,7 +116,11 @@ unk_cand_totals <- candidates %>%
   inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
   filter(party=="UNK") %>% 
   group_by(cand_name) %>% 
-  summarise(total=sum(transaction_amt))
+  summarise(total=sum(transaction_amt))%>% 
+  mutate(unk.name, .before=1) %>% 
+  select(names, total)
+
+unk.name <- data.frame(names = c("Nicholas Crane Strauss"))
 ```
 
 
@@ -168,7 +183,7 @@ server <- function(input, output){
                    "Unknown" = unk_cand_totals)
   
 })
-  output$candPlot <- renderPlot(ggplot(all_no_blunt, aes(reorder(all_no_blunt$cand_name, all_no_blunt$total))) +
+  output$candPlot <- renderPlot(ggplot(all_no_blunt, aes(reorder(all_no_blunt$names, all_no_blunt$total))) +
   geom_bar(aes(weight = all_no_blunt$total), fill = "#3CAEA3") + 
   coord_flip() +
   ggtitle("Total candidate contributions") +
@@ -179,7 +194,7 @@ server <- function(input, output){
 output$varPlot <- renderPlot(ggplot({data <- switch(input$var, 
                    "Republican" = rep_no_blunt,
                    "Democrat" = dem_cand_totals,
-                   "Unknown" = unk_cand_totals)}, aes(reorder(cand_name, total))) +
+                   "Unknown" = unk_cand_totals)}, aes(reorder(names, total))) +
   geom_bar(aes(weight = total), fill = switch(input$var, 
                    "Republican" = "#ED5533",
                    "Democrat" = "#173F5F",
