@@ -233,10 +233,4 @@ shinyApp(ui=ui , server = server)
 - style the web app (put non reactive total information in own column, make it prettier, etc.)
 - add a normal p blurb about what the web app is, perhaps in the sidebar
 
-#Deploy app?
-```{r}
-rsconnect::deployApp()
-```
-
-
 #Note to Laura, tutorial timestamp 1:36:53 https://shiny.rstudio.com/tutorial/
