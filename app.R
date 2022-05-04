@@ -5,9 +5,9 @@ library(tidyverse)
 library(janitor)
 
 #Load the data
-contributions <- read_csv("/Users/levans814/Documents/evans_final_adj/data/campfin/mo_contributions.csv")
-candidates <- read_csv("/Users/levans814/Documents/evans_final_adj/data/campfin/candidates.csv")
-committees <- read_csv("/Users/levans814/Documents/evans_final_adj/data/campfin/committees.csv")
+contributions <- read_csv("/Users/levans814/Documents/evans_final_adj/mo_contributions.csv")
+candidates <- read_csv("/Users/levans814/Documents/evans_final_adj/candidates.csv")
+committees <- read_csv("/Users/levans814/Documents/evans_final_adj/committees.csv")
 
 # DEAL WITH REFUNDS
 refunds <- contributions %>% filter(transaction_tp=="22Y") %>%
@@ -139,3 +139,5 @@ server <- function(input, output){
 }
 
 shinyApp(ui=ui , server = server)
+
+deployApp()
