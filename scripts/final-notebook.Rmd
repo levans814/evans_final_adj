@@ -86,7 +86,7 @@ unk_cand_commas <- unk_cand_totals %>%
 ```
 
 
-#Run the shiny app template
+#Run the shiny app
 ```{r}
 
 ui <- fluidPage(

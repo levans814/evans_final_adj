@@ -132,7 +132,7 @@ server <- function(input, output){
                                   xlab("Candidate") +
                                   ylab("Sum of contributions") +
                                   theme_bw(base_size = 16)+
-                                  scale_y_continuous(labels = comma))
+                                  scale_y_continuous())
   
   
   output$varPlot <- renderPlot(ggplot({data <- switch(input$var,
@@ -148,11 +148,9 @@ server <- function(input, output){
                                  xlab("Candidate") +
                                  ylab("Sum of contributions") +
                                  theme_bw(base_size = 16)+
-                                 scale_y_continuous(labels = comma))
+                                 scale_y_continuous())
   
   
 }
 
 shinyApp(ui=ui , server = server)
-
-deployApp()
