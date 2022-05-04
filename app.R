@@ -5,79 +5,87 @@ library(tidyverse)
 library(janitor)
 
 #Load the data
-contributions <- read_csv("data.1/campfin/mo_contributions.csv")
-candidates <- read_csv("data.1/campfin/candidates.csv")
-committees <- read_csv("data.1/campfin/committees.csv")
+contribs <- read_csv("data.1/contribs.csv")
+  
+  #make totals for each party
 
-# DEAL WITH REFUNDS
-refunds <- contributions %>% filter(transaction_tp=="22Y") %>%
-  mutate_if(is.numeric, funs(. * -1))
-no_refunds <- contributions %>% filter(transaction_tp!="22Y")
-clean_contribs<-no_refunds %>% add_row(refunds)
-party_contribs <- candidates %>% 
-  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
-  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
-  group_by(party) %>%
-  summarise(total = sum(transaction_amt))
+party_contribs <- contribs %>% 
+  filter(total_receipts!="0.00") %>%
+  group_by(party_full) %>%
+  summarise(total = sum(total_receipts))%>%
+  mutate_each(funs(prettyNum(., big.mark=","))) %>% 
+  mutate(party_full = str_to_title(party_full))
 
-#totals for all candidates, then remove blunt for graphs
-all_cand_totals <- candidates %>% 
-  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
-  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
-  group_by(cand_name) %>% 
-  summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
 
-all_no_blunt <- all_cand_totals %>% 
-  filter(cand_name!="BLUNT, ROY")
+#totals for all candidates, then add commas
+names<- data.frame(names = c("Lucas Kunce", "Eric Schmitt", "Vicky J. Hartzler", "Dave Schatz", "Eric Greitens", "Mark T. Mccloskey", "Scott Sifton", "Spencer Ross Toder", "Timothy Jacob Shepard", "Jewel William Kelly Jr.", "Steven Craig Price", "Gena Ross", "Nicholas Crane Strauss", "Trudy Busch Valentine"))
 
-#totals for candidates, republican, then remove blunt for graphs
-rep_cand_totals <- candidates %>% 
-  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
-  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
-  filter(party=="REP") %>% 
-  group_by(cand_name) %>% 
-  summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
+all_cand_totals <- contribs %>% 
+  filter(total_receipts!=0.00)%>%
+  arrange(desc(total_receipts)) %>% 
+  mutate(party_full = str_to_title(party_full)) %>% 
+  mutate(names, .before=1)%>%  
+  select(names, party_full, total_receipts)
 
-rep_no_blunt <- rep_cand_totals %>% 
-  filter(cand_name!="BLUNT, ROY")
+#names<-sapply(strsplit(all_cand_totals$candidate_name, split=", "),function(x)  {paste(rev(x),collapse=" ")})  %>%
+#str_to_title())
+#I got so frustrated by not knowing what to do with the Mr.s and Jr.s and the initials whatnot that I'm just going to write their names in a vector since there are only 14. 
 
-#totals for cand, dems
-dem_cand_totals <- candidates %>% 
-  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
-  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
-  filter(party=="DEM") %>% 
-  group_by(cand_name) %>% 
-  summarise(total=sum(transaction_amt)) %>% 
-  arrange(desc(total))
+all_cand_commas <- all_cand_totals %>%
+  mutate_each(funs(prettyNum(., big.mark=",")))
 
-#totals for cands, unk
-unk_cand_totals <- candidates %>% 
-  filter(election_yr=="2022" & office_st=="MO" & office=="S") %>%
-  inner_join(clean_contribs, by=c("pcc"="cmte_id")) %>%
-  filter(party=="UNK") %>% 
-  group_by(cand_name) %>% 
-  summarise(total=sum(transaction_amt))
+all_cand_graph <- all_cand_totals %>% 
+  select(names, total_receipts)
+
+
+#totals for republican candidates
+rep_cand_totals <- all_cand_totals %>% 
+  filter(party_full=="Republican Party")%>%  
+  select(names, total_receipts)
+
+rep_cand_commas <- rep_cand_totals %>% 
+  mutate_each(funs(prettyNum(., big.mark=",")))
+
+#totals for dems
+
+dem_cand_totals <- all_cand_totals %>% 
+  filter(party_full=="Democratic Party")%>%  
+  select(names, total_receipts)
+
+dem_cand_commas <- dem_cand_totals %>% 
+  mutate_each(funs(prettyNum(., big.mark=",")))
+
+#totals for unk, independent
+unk_cand_totals <- all_cand_totals %>% 
+  filter(party_full=="Independent" | party_full=="Unknown")%>%  
+  select(names, total_receipts)
+
+unk_cand_commas <- unk_cand_totals %>%
+  mutate_each(funs(prettyNum(., big.mark=",")))
+
+
+#Run the shiny app template
 
 ui <- fluidPage(
   
-  titlePanel("Missouri Senate Race"),
+  h1("Missouri Senate Race"),
   
   verticalLayout(
     sidebarLayout(
       sidebarPanel( selectInput("var", 
-                                label = "Choose a variable to display",
+                                label = "Choose a party to display",
                                 choices = c("Republican", "Democrat",
-                                            "Unknown"),
+                                            "Unknown/Independent"),
                                 selected = "Republican"),
                     p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
-                    
+                    p("This data is taken from the Federal Exchange Commission's website. It was accessed in early May."),
+                    tags$a(href="https://www.fec.gov/data/elections/senate/MO/2022/", "Click here to access the FEC's campaign finance data.")
       ),
       
       mainPanel(
         tableOutput("table"),
-        plotOutput("varPlot"))
+        plotOutput("varPlot")
+      )
     ),
   ),
   
@@ -108,33 +116,40 @@ server <- function(input, output){
   })
   
   output$all_cands <- renderTable({
-    all_cand_totals
+    all_cand_commas
   })
   
   output$table <- renderTable({data <- switch(input$var, 
-                                              "Republican" = rep_cand_totals,
-                                              "Democrat" = dem_cand_totals,
-                                              "Unknown" = unk_cand_totals)
+                                              "Republican" = rep_cand_commas,
+                                              "Democrat" = dem_cand_commas,
+                                              "Unknown/Independent" = unk_cand_commas)
   
   })
-  output$candPlot <- renderPlot(ggplot(all_no_blunt, aes(reorder(all_no_blunt$cand_name, all_no_blunt$total))) +
-                                  geom_bar(aes(weight = all_no_blunt$total), fill = "#3CAEA3") + 
+  output$candPlot <- renderPlot(ggplot(all_cand_graph, aes(reorder(names, total_receipts))) +
+                                  geom_bar(aes(weight = total_receipts), fill = "#3CAEA3") + 
                                   coord_flip() +
                                   ggtitle("Total candidate contributions") +
                                   xlab("Candidate") +
                                   ylab("Sum of contributions") +
-                                  theme_bw(base_size = 16))
+                                  theme_bw(base_size = 16)+
+                                  scale_y_continuous(labels = comma))
   
-  output$varPlot <- renderPlot(ggplot({data <- switch(input$var, 
-                                                      "Republican" = rep_no_blunt,
+  
+  output$varPlot <- renderPlot(ggplot({data <- switch(input$var,
+                                                      "Republican" = rep_cand_totals,
                                                       "Democrat" = dem_cand_totals,
-                                                      "Unknown" = unk_cand_totals)}, aes(reorder(cand_name, total))) +
-                                 geom_bar(aes(weight = total), fill = "#3CAEA3") + 
+                                                      "Unknown/Independent" = unk_cand_totals)}, aes(reorder(names, total_receipts))) +
+                                 geom_bar(aes(weight = total_receipts), fill = switch(input$var, 
+                                                                                      "Republican" = "#ED5533",
+                                                                                      "Democrat" = "#173F5F",
+                                                                                      "Unknown/Independent" = "#F6D55C")) + 
                                  coord_flip() +
-                                 ggtitle("Total candidate contributions") +
+                                 ggtitle("Candidate contributions") +
                                  xlab("Candidate") +
                                  ylab("Sum of contributions") +
-                                 theme_bw(base_size = 16))
+                                 theme_bw(base_size = 16)+
+                                 scale_y_continuous(labels = comma))
+  
   
 }
 

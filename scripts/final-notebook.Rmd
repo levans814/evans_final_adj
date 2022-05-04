@@ -27,7 +27,8 @@ https://www.fec.gov/data/elections/senate/MO/2022/
 party_contribs <- contribs %>% 
   filter(total_receipts!="0.00") %>%
   group_by(party_full) %>%
-  summarise(total = sum(total_receipts))%>%
+  summarise(total = sum(total_receipts))%>% 
+  arrange(desc(total)) %>% 
     mutate_each(funs(prettyNum(., big.mark=","))) %>% 
   mutate(party_full = str_to_title(party_full))
 ```
