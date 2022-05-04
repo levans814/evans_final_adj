@@ -100,8 +100,7 @@ ui <- fluidPage(
                               "Unknown/Independent"),
                   selected = "Republican"),
                 p("After Sen. Roy Blunt announced he would not be running for reelection for the U.S. Senate, the race for his seat quickly became crowded. Browse this application to learn more about the funding behind the race for Missouri's open Senate seat."),
-                p("Senator Blunt's contribution sum returns negative, as Blunt has issued refunds to donors. As such, Blunt has been excluded from the graphs on this website."),
-p("This data is taken from the Federal Exchange Commission's website. It was accessed in late February, so the information is not up to date."),
+p("This data is taken from the Federal Exchange Commission's website. It was accessed in early May."),
 tags$a(href="https://www.fec.gov/data/elections/senate/MO/2022/", "Click here to access the FEC's campaign finance data.")
 ),
     
@@ -145,7 +144,7 @@ server <- function(input, output){
   output$table <- renderTable({data <- switch(input$var, 
                    "Republican" = rep_cand_commas,
                    "Democrat" = dem_cand_commas,
-                   "Unknown" = unk_cand_commas)
+                   "Unknown/Independent" = unk_cand_commas)
   
 })
   output$candPlot <- renderPlot(ggplot(all_cand_graph, aes(reorder(names, total_receipts))) +
@@ -154,21 +153,25 @@ server <- function(input, output){
   ggtitle("Total candidate contributions") +
   xlab("Candidate") +
   ylab("Sum of contributions") +
-  theme_bw(base_size = 16))
+  theme_bw(base_size = 16)+
+    scale_y_continuous(labels = comma))
 
-output$varPlot <- renderPlot(ggplot({data <- switch(input$var, 
-                   "Republican" = rep_no_blunt,
+  
+  output$varPlot <- renderPlot(ggplot({data <- switch(input$var,
+                   "Republican" = rep_cand_totals,
                    "Democrat" = dem_cand_totals,
-                   "Unknown" = unk_cand_totals)}, aes(reorder(names, total))) +
-  geom_bar(aes(weight = total), fill = switch(input$var, 
+                   "Unknown/Independent" = unk_cand_totals)}, aes(reorder(names, total_receipts))) +
+  geom_bar(aes(weight = total_receipts), fill = switch(input$var, 
                    "Republican" = "#ED5533",
                    "Democrat" = "#173F5F",
-                   "Unknown" = "#F6D55C")) + 
+                   "Unknown/Independent" = "#F6D55C")) + 
   coord_flip() +
   ggtitle("Candidate contributions") +
   xlab("Candidate") +
   ylab("Sum of contributions") +
-  theme_bw(base_size = 16))
+  theme_bw(base_size = 16)+
+    scale_y_continuous(labels = comma))
+  
 
 }
 
