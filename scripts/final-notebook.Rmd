@@ -179,12 +179,3 @@ server <- function(input, output){
 shinyApp(ui=ui , server = server)
 
 ```
-
-#Tasks!
-- add reactive graphs!
-- try to modify tables so they're easier to read -- column names, title case the cand names, add commas to the totals etc.
-- add in a blurb about refunds, explaining Blunt negative
-- style the web app (put non reactive total information in own column, make it prettier, etc.)
-- add a normal p blurb about what the web app is, perhaps in the sidebar
-
-#Note to Laura, tutorial timestamp 1:36:53 https://shiny.rstudio.com/tutorial/
