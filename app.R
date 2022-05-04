@@ -5,9 +5,9 @@ library(tidyverse)
 library(janitor)
 
 #Load the data
-contributions <- read_csv("/Users/levans814/Documents/evans_final_adj/mo_contributions.csv")
-candidates <- read_csv("/Users/levans814/Documents/evans_final_adj/candidates.csv")
-committees <- read_csv("/Users/levans814/Documents/evans_final_adj/committees.csv")
+contributions <- read_csv("data.1/campfin/mo_contributions.csv")
+candidates <- read_csv("data.1/campfin/candidates.csv")
+committees <- read_csv("data.1/campfin/committees.csv")
 
 # DEAL WITH REFUNDS
 refunds <- contributions %>% filter(transaction_tp=="22Y") %>%
